@@ -12,7 +12,7 @@ export default function Login() {
   const submit = async (e) => {
     e.preventDefault();
     const res = await axios.post(`${API_BASE}/api/auth/login`, { email, password });
-    localStorage.setItem("user", JSON.stringify(res.data.user));
+    localStorage.setItem("mm_user", JSON.stringify(res.data.user));
     nav("/");
   };
 
