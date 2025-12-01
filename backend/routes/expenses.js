@@ -3,20 +3,21 @@ import Expense from "../models/Expense.js";
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
-  const { userId, title, amount, date } = req.body;
-  const e = await Expense.create({ userId, title, amount, date });
-  res.json(e);
-});
-
+// Get all expenses
 router.get("/:userId", async (req, res) => {
-  const data = await Expense.find({ userId: req.params.userId });
-  res.json(data);
+  const expenses = await Expense.find({ userId: req.params.userId });
+  res.json(expenses);
 });
 
-router.delete("/:id", async (req, res) => {
-  await Expense.findByIdAndDelete(req.params.id);
-  res.json({ message: "Deleted" });
+// Add expense
+router.post("/", async (req, res) => {
+  try {
+    const { userId, title, amount } = req.body;
+    const exp = await Expense.create({ userId, title, amount });
+    res.json(exp);
+  } catch (err) {
+    res.status(500).json({ message: "Error adding expense" });
+  }
 });
 
 export default router;
